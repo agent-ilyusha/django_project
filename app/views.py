@@ -257,8 +257,7 @@ def create_car(request: WSGIRequest):
                 errors_sr.append(valid_sr[0])
                 list_service_records.append(valid_sr[1])
 
-        if errors_sr[0] or errors:
-            print(errors, errors_sr)
+        if errors_sr and (errors_sr[0] or errors):
             return render(
                 request,
                 'car/create.html',

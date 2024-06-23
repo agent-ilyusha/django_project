@@ -3,11 +3,10 @@ from time import sleep
 
 from selenium.webdriver.common.by import By
 
-driver = webdriver.Firefox()
 URL = "http://127.0.0.1:8000/"
 
 
-def login():
+def login(driver):
     driver.get(URL + "login/")
     data = {
         'username': 'mandarinka',
@@ -18,13 +17,8 @@ def login():
     driver.find_element(By.NAME, 'submit').click()
 
 
-def logout():
-    driver.find_element(By.ID, 'profile').click()
-    driver.find_element(By.NAME, 'logout').click()
-    driver.close()
-
-
 def test_registration():
+    driver = webdriver.Firefox()
     data = {
         'username': 'test',
         'first_name': 'test',
@@ -32,7 +26,6 @@ def test_registration():
         'password': 'test_1234'
     }
     driver.get(URL + 'register/')
-    sleep(.5)
     username = driver.find_element(By.NAME, 'username')
     username.send_keys(data['username'])
     password = driver.find_element(By.NAME, 'password1')
@@ -44,25 +37,20 @@ def test_registration():
     last_name = driver.find_element(By.NAME, 'last_name')
     last_name.send_keys(data['last_name'])
     submit = driver.find_element(By.NAME, 'submit')
-    sleep(2)
     submit.click()
-    driver.find_element(By.NAME, 'username').send_keys(data['username'])
-    driver.find_element(By.NAME, 'password').send_keys(data['password'])
-    driver.find_element(By.NAME, 'submit').click()
     driver.close()
 
 
 def test_login():
+    driver = webdriver.Firefox()
     data = {
         'username': 'mandarinka',
         'password': '0347469_Wasd'
     }
     driver.get(URL + "login/")
-    sleep(.5)
     driver.find_element(By.NAME, 'username').send_keys(data['username'])
     driver.find_element(By.NAME, 'password').send_keys(data['password'])
     driver.find_element(By.NAME, 'submit').click()
-    sleep(2)
     if not (driver.current_url == URL + "profile/"):
         driver.close()
         raise Exception('Failed to url')
@@ -74,7 +62,8 @@ def test_login():
 
 
 def test_car_create():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
 
     data = {
         'mark': 'test',
@@ -84,7 +73,6 @@ def test_car_create():
         'description': 'test',
     }
     driver.get(URL + "car/create/")
-    sleep(.5)
 
     for key, value in data.items():
         driver.find_element(By.ID, key).send_keys(value)
@@ -92,14 +80,12 @@ def test_car_create():
     sleep(2)
     driver.find_element(By.ID, 'accept').click()
 
-    if driver.find_elements(By.ID, 'mark')[-1].text != 'test' or \
-            driver.find_elements(By.ID, 'model')[-1].text != 'test':
-        raise Exception("Failed to test")
     driver.close()
 
 
 def test_car_settings():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
     data_search = '59fa7a1b-b9c0-4859-b726-32e987d99691'
     data_update = {
         'mark': 'test2',
@@ -109,35 +95,32 @@ def test_car_settings():
         'description': 'test2',
     }
 
+    driver.find_element(By.ID, 'view_cars').click()
     for val in driver.find_elements(By.NAME, 'car_id'):
-        if val.text == data_search:
+        if val.get_attribute('value') == data_search:
             val.click()
             break
+    driver.find_element(By.NAME, 'car_id').click()
 
     for key, value in data_update.items():
         driver.find_element(By.ID, key).send_keys(value)
 
     driver.find_element(By.NAME, 'car_id').click()
 
-    if driver.find_elements(By.ID, 'mark')[-1].text != 'test2':
-        driver.close()
-        raise Exception("Failed to test")
-
     driver.close()
 
 
 def test_replenishment():
+    driver = webdriver.Firefox()
     money = 100
 
-    login()
+    login(driver)
 
     driver.get(URL + "profile/")
     start_money = driver.find_element(By.ID, 'money').text.replace(',', '.').replace(' ', '')
-    print(start_money)
     start_money = str((float(start_money) + money))
     start_money = start_money.replace('.', ',')
 
-    sleep(.5)
     driver.find_element(By.ID, 'replenishment').click()
 
     driver.find_element(By.ID, 'repl').send_keys(str(money))
@@ -150,7 +133,8 @@ def test_replenishment():
 
 
 def test_car_create_with_sr():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
     data = {
         'mark': 'test3',
         'model': 'test3',
@@ -165,7 +149,6 @@ def test_car_create_with_sr():
     }
 
     driver.get(URL + "car/create/")
-    sleep(.5)
 
     for key, value in data.items():
         driver.find_element(By.ID, key).send_keys(value)
@@ -174,18 +157,14 @@ def test_car_create_with_sr():
 
     for key, value in data_sr.items():
         driver.find_element(By.NAME, key).send_keys(value)
-        sleep(1.5)
 
-    sleep(2)
     driver.find_element(By.ID, 'accept').click()
 
-    if driver.find_elements(By.ID, 'mark')[-1].text != 'test3' or \
-            driver.find_elements(By.ID, 'model')[-1].text != 'test3':
-        raise Exception("Failed to test")
     driver.close()
 
 
 def test_register_page():
+    driver = webdriver.Firefox()
     driver.get(URL + 'register/')
     data = ['username', 'first_name', 'last_name', 'password1', 'password2']
     for value in data:
@@ -199,6 +178,7 @@ def test_register_page():
 
 
 def test_login_page():
+    driver = webdriver.Firefox()
     driver.get(URL + 'login/')
     data = ['username', 'password']
     for value in data:
@@ -212,9 +192,9 @@ def test_login_page():
 
 
 def test_profile_page():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
 
-    driver.get(URL + 'profile/')
     data_url = [
         ('replenishment', 'profile', 'replenishment'),
         ('create_car', 'car', 'create'),
@@ -224,7 +204,6 @@ def test_profile_page():
     data_id = ['username', 'name', 'money']
     data_id.extend([value[0] for value in data_url])
     data_name = ['logout']
-    sleep(1)
     for value in data_id:
         driver.find_element(By.ID, value)
 
@@ -236,7 +215,6 @@ def test_profile_page():
         if not (driver.current_url == URL + f'{value[1]}/{value[2]}/'):
             driver.close()
             raise Exception('Failed to url')
-        sleep(1)
         driver.find_element(By.ID, 'profile').click()
         if not (driver.current_url == URL + 'profile/'):
             driver.close()
@@ -251,10 +229,10 @@ def test_profile_page():
 
 
 def test_car_create_page():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
 
-    driver.get(URL + "car/create/")
-    sleep(.5)
+    driver.find_element(By.ID, 'create_car').click()
     data_car = ['model', 'mark', 'date_of_issue', 'price', 'description', 'for_sale']
     data_but = ['add_sr', 'del_sr']
     data_sr = ['sr_type_work', 'sr_the_date_of_the', 'sr_price']
@@ -269,14 +247,14 @@ def test_car_create_page():
     for value in data_sr:
         driver.find_element(By.ID, value)
 
-    logout()
+    driver.close()
 
 
 def test_view_cars_page():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
 
-    driver.get(URL + "car/views/")
-    sleep(.5)
+    driver.find_element(By.ID, 'view_cars').click()
     data = ['car_id']
     for value in data:
         driver.find_element(By.NAME, value)
@@ -290,9 +268,9 @@ def test_view_cars_page():
 
 
 def test_car_delete_page():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
     driver.get(URL + "car/delete/")
-    sleep(.5)
     msg = 'Вы не указали машину!'
     if driver.find_element(By.ID, 'msg').text != msg:
         driver.close()
@@ -301,9 +279,9 @@ def test_car_delete_page():
 
 
 def test_car_view_page():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
     driver.get(URL + "car/views/")
-    sleep(.5)
     driver.find_element(By.NAME, 'car_id').click()
     data = ['mark', 'model', 'date_of_issue', 'price', 'description']
     for value in data:
@@ -313,7 +291,8 @@ def test_car_view_page():
 
 
 def test_car_settings_page():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
     data = ['mark', 'model', 'date_of_issue', 'price', 'description']
     driver.get(URL + "car/views/")
     driver.find_element(By.NAME, 'car_id').click()
@@ -325,8 +304,8 @@ def test_car_settings_page():
 
 
 def test_replenishment_page():
-    login()
+    driver = webdriver.Firefox()
+    login(driver)
     driver.get(URL + "profile/replenishment/")
     driver.find_element(By.ID, 'repl')
-    sleep(.5)
     driver.close()

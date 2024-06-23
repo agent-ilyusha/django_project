@@ -1,6 +1,6 @@
 {% extends "base_generic.html" %}
 {% block content %}
-    {% if user is AnonymousUser %}
+    {% if user %}
         {{ user }}
         {% load static %}
         <script type="text/javascript" src={% static '/js/button.js' %}></script>
