@@ -1,0 +1,55 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user %}
+        {% load static %}
+        <link rel="stylesheet" href={% static "css/selector.css" %}>
+        <div>
+            <form method="post" action={% url "view_car" %}>
+                {% csrf_token %}
+                <div id="info_car_name">
+                    <table>
+                        <tr>
+                            <td>
+                                <label class="text_table" for="small"><b>Марка</b></label>
+                                <input class="small" id="small" name="filter" type="button">
+                            </td>
+                            <td>
+                                <div class="div_td">
+                                    <label class="text_table" for="small"><b>Модель</b></label>
+                                    <input class="small" id="small" name="filter" type="button">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="div_td">
+                                    <label class="text_table" for="small"><b>Цена</b></label>
+                                    <input class="small" id="small" name="filter" type="button">
+                                </div>
+                            </td>
+                        </tr>
+                        {% for car in cars %}
+                            <tr>
+                                <td id="mark">
+                                    {{ car.mark }}
+                                </td>
+                                <td id="model">
+                                    {{ car.model }}
+                                </td>
+                                <td id="price">
+                                    {{ car.price }}
+                                </td>
+                                <td>
+                                    <button type="submit" name="car_id" value={{ car.id }}>Переход к просмотру машины</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </form>
+        </div>
+        <div>
+            <label><a id="profile" href={% url "profile" %}>Переход в профиль</a></label>
+        </div>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

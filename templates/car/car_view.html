@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user %}
+        {% load static %}
+        <link rel="stylesheet" href={% static "css/selector.css" %}>
+        <div>
+            <table>
+                {% for name, value in car.items %}
+                    <tr>
+                        <td id="{{ name }}">{{ name }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        {% if for_sale and not flag %}
+            <div>
+            <form method="post" action={% url "buy_car" %}>
+                {% csrf_token %}
+                <button type="submit" name="car_id" value="{{ id }}">Купить машину</button>
+            </form>
+            </div>
+            <br>
+        {% endif %}
+        {% if flag %}
+            <form method="post" action={% url "settings_vehicle" %}>
+                {% csrf_token %}
+                <div>
+                    <button type="submit" name="car_id" value="{{ id }}">Настройки машины</button>
+                </div>
+            </form>
+        {% endif %}
+        <div>
+            <label><a href={% url "view_cars" %}>Переход к просмотру машин</a></label>
+        </div>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user %}
+        <form method="post" action="/profile/settings/">
+            {% csrf_token %}
+
+            <div>
+                <label for="nickname">Nickname</label>
+                <input class="nickname" id="nickname" name="nickname" type="text" value="{{ owner.user.username }}" disabled>
+            </div>
+            <div>
+                <label for="name">Name</label>
+                <input class="name" id="name" name="name" type="text" value="{{ owner.name }}" autocomplete="off">
+            </div>
+            <div>
+                <label for="surname">Surname</label>
+                <input class="surname" id="surname" name="surname" type="text" value="{{ owner.surname }}" autocomplete="off">
+            </div>
+            <div>
+                <label for="patronymic">Patronymic</label>
+                <input class="patronymic" id="patronymic" name="patronymic" type="text" autocomplete="off" value="{% if owner.patronymic %} {{ owner.patronymic }} {% endif %}">
+            </div>
+            <div>
+                <label for="number">Number</label>
+                <input class="number" id="number" type="text" name="number" autocomplete="off" value="{% if owner.number %} {{ owner.number }} {% endif %}">
+            </div>
+            <div>
+                <label for="access">Отправить данные</label>
+                <input type="submit" id="access">
+            </div>
+            <div>
+                <label>Нажми на текст далее -><a id="profile" href={% url "profile" %}>Переход в профиль</a><- чтобы вернуться в профиль</label>
+            </div>
+        </form>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

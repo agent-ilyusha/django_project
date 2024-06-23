@@ -1,0 +1,66 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user %}
+        {% load static %}
+        <link rel="stylesheet" href={% static "css/selector.css" %}>
+        <script type="text/javascript" src={% static '/js/button.js' %}></script>
+        {% if flag %}
+            <div>
+                <form method="post" action={% url "settings_vehicle" %}>
+                    {% csrf_token %}
+                    <div>
+                        <label for="mark">Марка</label>
+                        <input type="text" name="mark" id="mark" value="{{ car.mark }}">
+                    </div>
+                    <div>
+                        <label for="model">Модель</label>
+                        <input type="text" name="model" id="model" value="{{ car.model }}">
+                    </div>
+                    <div>
+                        <label for="description">Описание</label>
+                        <input type="text" name="description" id="description" value="{{ car.description }}">
+                    </div>
+                    <div>
+                        <label for="price">Цена</label>
+                        <input type="text" name="price" id="price" value="{{ car.price }}">
+                    </div>
+                    <div>
+                        <label for="date_of_issue">Дата выпуска</label>
+                        <input type="date" name="date_of_issue" id="date_of_issue" value="{{ date_of_issue }}">
+                    </div>
+                    <div>
+                        <labeL for="for_sale">Продажа</labeL>
+                        <input type="checkbox"
+                               name="for_sale" id="for_sale"
+                               value="{{ car.for_sale }}"
+                                {% if car.for_sale %} checked {% endif %}>
+                    </div>
+                    <div>
+                        <button type="submit" name="car_id" id="car_id" value="{{ car.id }}">Обновить данные</button>
+                    </div>
+                    {% if sr %}
+                        {% for service in sr %}
+                            <h4>Запись</h4>
+                            {% for name, val in service.items %}
+                                <div>
+                                    <label for="{{ name }}">{{ name }}</label>
+                                    <input type="text" id="{{ name }}" value="{{ val }}">
+                                </div>
+                            {% endfor %}
+                            <br>
+                        {% endfor %}
+                    {% endif %}
+                </form>
+            <form method="post" action={% url "delete_car" %}>
+                {% csrf_token %}
+                <button name="delete" value={{ car.id }}>Удалить машину</button>
+            </form>
+                <label><a href={% url "profile" %}>Переход в профиль</a></label>
+            </div>
+        {% else %}
+            <h3>Это не ваша машина!</h3>
+        {% endif %}
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

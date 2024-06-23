@@ -1,0 +1,93 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user is AnonymousUser %}
+        {{ user }}
+        {% load static %}
+        <script type="text/javascript" src={% static '/js/button.js' %}></script>
+        <div>
+            <form id="main_form" method="post">
+                {% csrf_token %}
+                {% if errors %}
+                    <div>
+                        <table>
+                            {% for error in errors %}
+                                <tr>
+                                    <td>
+                                        {{ error }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div><br>
+                {% endif %}
+                <div>
+                    <div>
+                        <label for="mark">Марка машины:</label>
+                        <input id="mark" name="mark" value="{% if car.mark != "" %}{{ car_data.mark }}{% endif %}" >
+                    </div>
+                    <div>
+                        <label for="model">Модель машины:</label>
+                        <input id="model" name="model" value="{% if car.model != "" %}{{ car_data.model }}{% endif %}">
+                    </div>
+                    <div>
+                        <label for="date_of_issue">Дата выпуска:</label>
+                        <input id="date_of_issue" name="date_of_issue" type="date" value="{% if car_data.date_of_issue != "" %}{{ car_data.date_of_issue }}{% endif %}">
+                    </div>
+                    <div>
+                        <label for="price">Цена:</label>
+                        <input id="price" name="price" type="number" value="{% if car_data.price != "" %}{{ car_data.price }}{% endif %}">
+                    </div>
+                    <div>
+                        <label for="description">Описание</label>
+                        <input id="description" name="description" value="{% if car_data.description != "" %}{{ car_data.description }}{% endif %}">
+                    </div>
+                    <div>
+                        <label for="for_sale">Продажа</label>
+                        <input type="checkbox" id="for_sale" name="for_sale" {% if car_data.for_sale %} checked {% endif %}>
+                    </div>
+                </div>
+                <div id="service_main_div">
+                    {% if errors_sr %}
+                        <br>
+                        <div>
+                            <table>
+                                {% for error in errors_sr %}
+                                    <tr>
+                                        <td>
+                                            <label>Для записи {{ forloop.counter }}</label>
+                                            {{ error }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                        {% for val in list_service_records %}
+                            <div id="{{ forloop.counter0 }}" class="main_div_sr">
+                                <h4>Запись {{ forloop.counter }}</h4>
+                                <label for="sr_type_work">Тип работы</label>
+                                <input id="sr_type_work" name="type_work{{ forloop.counter0 }}" type="text" value={% if val.type_work %} {{ val.type_work.0 }} {% endif %}><br>
+                                <label for="sr_the_date_of_the">Дата проведения работ</label>
+                                <input id="sr_the_date_of_the" name="the_date_of_the{{ forloop.counter0 }}" type="date" value={% if val.the_date_of_the %} {{ val.the_date_of_the.0 }} {% endif %}><br>
+                                <label for="sr_price">Цена</label>
+                                <input id="sr_price" name="price{{ forloop.counter0 }}" type="number" value={% if val.price %} {{ val.price.0 }} {% endif %}>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                <div id="buttons">
+                    <button name="add_sr" type="button" onclick="addRecordField()">Добавить записи</button>
+                    <button name="del_sr" type="button" onclick="delRecordField()">Удалить записи</button>
+                </div>
+                <div>
+                    <label for="accept">Подтверждение</label>
+                    <input id="accept" type="submit" value="Готово">
+                </div>
+            </form>
+            <div>
+                <label><a id="profile" href={% url 'profile' %}>Вернуться в профиль</a></label>
+            </div>
+        </div>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

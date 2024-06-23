@@ -1,0 +1,24 @@
+{% block content %}
+{% if request.user.is_authenticated %}
+    <p>You are already logged in</p>
+{% else %}
+    {{ errors }}
+    <form action="{% url 'register' %}" method="POST">
+        {% csrf_token %}
+        <label for="username">Имя пользователя</label><br>
+        {{ form.username }} <br>
+        <label for="first_name">Ваше имя</label><br>
+        {{ form.first_name }} <br>
+        <label for="last_name">Фамилия</label><br>
+        {{ form.last_name }} <br>
+        <label for="password1">Пароль</label> <br>
+        {{ form.password1 }}<br>
+        <label for="password2">Тот же пароль, что и выше</label><br>
+        {{ form.password2 }}<br>
+        <button name="submit" type="submit">Нажми для подтверждения</button>
+    </form>
+    <div>
+        <label id="login"><a id="login" href={% url "login" %}>Войти в учетную запись</a></label>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index title</title>
+</head>
+<body>
+    {% extends "base_generic.html" %}
+    {% block content %}
+    <h1>RPM_LIBRARY Home</h1>
+    
+      <p>Welcome to <em>RPM_LIBRARY</em>, a very basic Django website developed as a tutorial example</p>
+    
+    <h2>Dynamic content</h2>
+    
+      <p>Our library has the following record counts:</p>
+      <ul>
+        <li><strong>Cars:</strong> {{ cars }}</li>
+        <li><strong>Owners:</strong> {{ owners }}</li>
+        <li><strong>ServiceRecords:</strong> {{ serviceRecords }}</li>
+        <li><strong>Addresses:</strong> {{ addresses }}</li>
+      </ul>
+    
+    {% endblock %}
+</body>
+</html>

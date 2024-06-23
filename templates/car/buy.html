@@ -1,0 +1,56 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user and car %}
+        {% load static %}
+        <link rel="stylesheet" href={% static "css/selector.css" %}>
+        <div>
+            <label>{{ msg }}</label>
+        </div>
+        {% if not flag %}
+            <div>
+                <label><a href={% url "replenishment" %}>Перейдите для поплнения денег</a></label>
+            </div>
+        {% endif %}
+        {% if flag %}
+            <div>
+                <table>
+                    <tr>
+                       <td>Марка:</td> 
+                       <td>{{ car.mark }}</td> 
+                    </tr>
+                    <tr>
+                       <td>Модель:</td> 
+                       <td>{{ car.model }}</td> 
+                    </tr>
+                    <tr>
+                       <td>Цена:</td> 
+                       <td>{{ car.price }}</td> 
+                    </tr>
+                    {% if car.description %}
+                        <tr>
+                           <td>Описание:</td> 
+                           <td>{{ car.description }}</td> 
+                        </tr>
+                    {% endif %}
+                </table><br>
+                <div>
+                    <form method="post" action={% url "settings_vehicle" %}>
+                        {% csrf_token %}
+                        <div>
+                            <button type="submit" name="car_id" value="{{ car.id }}">Перейти к найстройкам описания машины</button>
+                        </div>
+                    </form><br>
+                    <div>
+                        <label><a href={% url "view_cars" %}>Перейти к просмотру машин</a></label>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% elif not car %}
+        <div>
+            <label>Без машины не возвращайся!</label>
+        </div>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

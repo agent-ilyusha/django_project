@@ -1,0 +1,13 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user%}
+        {% load static %}
+        <link rel="stylesheet" href={% static "css/selector.css" %}>
+        <div>
+            <label id="msg">{{ msg }}</label><br>
+            <label><a id="profile" href={% url "profile" %}>Вернуться в профиль</a></label>
+        </div>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

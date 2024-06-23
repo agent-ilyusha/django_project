@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {% if user %}
+        <p id="name">Имя пользователя: {{ owner.name }}</p><br>
+        <p id="username">Ник пользователя: {{ owner.user.username }}</p><br>
+        <div>
+            <p>Деньги пользователя: <a id="money">{% if owner.money %}{{ owner.money }} {% else %}0{% endif %}</a></p><br>
+            <label><a id="replenishment" href={% url "replenishment" %}>Перейдите для поплнения денег</a></label>
+        </div><br>
+        <div>
+            <label><a id="create_car" href={% url "create_car" %}>Перейти к созданию машины</a></label>
+        </div><br>
+        <div>
+            <label><a id="view_cars" href={% url "view_cars" %}>Перейти к просмотру машин</a></label>
+        </div><br>
+        <div>
+            <label><a id="settings" href={% url "settings" %}>Перейти к настройкам пользователя</a></label>
+        </div>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button name="logout" type="submit">logout</button>
+        </form>
+        <button class="btn btn-sm btn-outline-primary w-100" onclick="location.href='{% url 'password_change' %}'">Change password</button>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

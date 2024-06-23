@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+    {% if user %}
+        <div>
+            <h1>Bad request!</h1>
+        </div>
+    {% else %}
+        <p>Вы не залогинены</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,12 @@
+table {
+    border-spacing: 15px;
+}
+
+.small {
+    display: inline-block;
+    width: 5px;
+    height: 15px;
+}
+.text_table {
+    font-size: 20px;
+}

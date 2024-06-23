@@ -1,0 +1,30 @@
+{% if not user.is_authenticated %}
+{% block content %}
+    <div class="main">
+        {% if form.errors %}
+            <p>Your username and password didn't match. Please try again.</p>
+        {% endif %}
+        <form method="post" class="from_login">
+            {% csrf_token %}
+            <div class="input_username">
+                <label for="userName"></label>
+                <input type="text" name="username" id="userName" placeholder="Введите имя пользователя">
+            </div>
+            <div class="input_password">
+                <label for="Password"></label>
+                <input type="password" name="password" id="Password" placeholder="Введите пароль">
+            </div>
+            <button name="submit" class="input">Войти</button>
+        </form>
+    <div>
+        <label><a id="register" href={% url "register" %}>Зарегистрироваться</a></label>
+    </div>
+    </div>
+{% endblock %}
+{% else %}
+    {% block content2 %}
+        <div class="main">
+            <a href="{% url "profile" %}">Нажмите сюда </a><p>Чтобы перейти в профиль</p>
+        </div>
+    {% endblock %}
+{% endif %}
