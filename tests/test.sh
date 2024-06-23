@@ -7,4 +7,4 @@ export PG_PASSWORD=test
 export PG_DBNAME=postgres
 export SECRET_KEY=4o7wrqsup*pc*m_etd$mu$8klfl2r$l1_073a+-j_tkvq9a+b7
 
-python3 manage.py test $1
+python3 manage.py test $1 --settings=djangoProject.settings
