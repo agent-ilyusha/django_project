@@ -16,7 +16,7 @@
         </div><br>
         <div>
             <label><a id="settings" href={% url "settings" %}>Перейти к настройкам пользователя</a></label>
-        </div>
+        </div><br>
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <button name="logout" type="submit">logout</button>

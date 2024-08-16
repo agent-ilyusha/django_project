@@ -4,47 +4,61 @@
         {% load static %}
         <link rel="stylesheet" href={% static "css/selector.css" %}>
         <div>
-            <form method="post" action={% url "view_car" %}>
+            <div>
+                <form method="post" action={% url "view_cars" %}>
                 {% csrf_token %}
-                <div id="info_car_name">
-                    <table>
-                        <tr>
-                            <td>
-                                <label class="text_table" for="small"><b>Марка</b></label>
-                                <input class="small" id="small" name="filter" type="button">
-                            </td>
-                            <td>
-                                <div class="div_td">
-                                    <label class="text_table" for="small"><b>Модель</b></label>
-                                    <input class="small" id="small" name="filter" type="button">
-                                </div>
-                            </td>
-                            <td>
-                                <div class="div_td">
-                                    <label class="text_table" for="small"><b>Цена</b></label>
-                                    <input class="small" id="small" name="filter" type="button">
-                                </div>
-                            </td>
-                        </tr>
-                        {% for car in cars %}
+                    <div>
+                        {% if not my_car %}
+                            <input type="submit" id="my_car" name="my_car" value="Отобразить только свои машины">
+                        {% else %}
+                            <input type="submit" id="all_car" name="all_car" value="Отобразить все машины">
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            <div>
+                <form method="post" action={% url "view_car" %}>
+                    {% csrf_token %}
+                    <div id="info_car_name">
+                        <table>
                             <tr>
-                                <td id="mark">
-                                    {{ car.mark }}
-                                </td>
-                                <td id="model">
-                                    {{ car.model }}
-                                </td>
-                                <td id="price">
-                                    {{ car.price }}
+                                <td>
+                                    <label class="text_table" for="small"><b>Марка</b></label>
+                                    <input class="small" id="small" name="filter" type="button">
                                 </td>
                                 <td>
-                                    <button type="submit" name="car_id" value={{ car.id }}>Переход к просмотру машины</button>
+                                    <div class="div_td">
+                                        <label class="text_table" for="small"><b>Модель</b></label>
+                                        <input class="small" id="small" name="filter" type="button">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="div_td">
+                                        <label class="text_table" for="small"><b>Цена</b></label>
+                                        <input class="small" id="small" name="filter" type="button">
+                                    </div>
                                 </td>
                             </tr>
-                        {% endfor %}
-                    </table>
-                </div>
-            </form>
+                            {% for car in cars %}
+                                <tr>
+                                    <td id="mark">
+                                        {{ car.mark }}
+                                    </td>
+                                    <td id="model">
+                                        {{ car.model }}
+                                    </td>
+                                    <td id="price">
+                                        {{ car.price }}
+                                    </td>
+                                    <td>
+                                        <button type="submit" name="car_id" value={{ car.id }}>Переход к просмотру машины</button>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </table>
+                    </div>
+                </form>
+            </div>
         </div>
         <div>
             <label><a id="profile" href={% url "profile" %}>Переход в профиль</a></label>

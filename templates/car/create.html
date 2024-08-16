@@ -65,11 +65,11 @@
                             <div id="{{ forloop.counter0 }}" class="main_div_sr">
                                 <h4>Запись {{ forloop.counter }}</h4>
                                 <label for="sr_type_work">Тип работы</label>
-                                <input id="sr_type_work" name="type_work{{ forloop.counter0 }}" type="text" value={% if val.type_work %} {{ val.type_work.0 }} {% endif %}><br>
+                                <input id="sr_type_work" name="type_work{{ forloop.counter0 }}" type="text" value={% if val.type_work %} {{ val.type_work }} {% endif %}><br>
                                 <label for="sr_the_date_of_the">Дата проведения работ</label>
-                                <input id="sr_the_date_of_the" name="the_date_of_the{{ forloop.counter0 }}" type="date" value={% if val.the_date_of_the %} {{ val.the_date_of_the.0 }} {% endif %}><br>
+                                <input id="sr_the_date_of_the" name="the_date_of_the{{ forloop.counter0 }}" type="date" value={% if val.the_date_of_the %} {{ val.the_date_of_the }} {% endif %}><br>
                                 <label for="sr_price">Цена</label>
-                                <input id="sr_price" name="price{{ forloop.counter0 }}" type="number" value={% if val.price %} {{ val.price.0 }} {% endif %}>
+                                <input id="sr_price" name="price{{ forloop.counter0 }}" type="number" value={% if val.price %} {{ val.price }} {% endif %}>
                             </div>
                         {% endfor %}
                     {% endif %}

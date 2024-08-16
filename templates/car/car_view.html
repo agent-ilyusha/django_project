@@ -4,14 +4,30 @@
         {% load static %}
         <link rel="stylesheet" href={% static "css/selector.css" %}>
         <div>
-            <table>
-                {% for name, value in car.items %}
-                    <tr>
-                        <td id="{{ name }}">{{ name }}</td>
-                        <td>{{ value }}</td>
-                    </tr>
-                {% endfor %}
-            </table>
+            <div>
+                <label for="mark">Марка: </label>
+                <label>{{ car.mark }}</label>
+            </div>
+            <div>
+                <label for="model">Модель: </label>
+                <label>{{ car.model }}</label>
+            </div>
+            <div>
+                <label for="description">Описание: </label>
+                <label>{{ car.description }}</label>
+            </div>
+            <div>
+                <label for="price">Цена: </label>
+                <label>{{ car.price }}</label>
+            </div>
+            <div>
+                <label for="date_of_issue">Дата выпуска: </label>
+                <label>{{ date_of_issue }}</label>
+            </div>
+            <div>
+                <labeL for="for_sale">Продажа: </labeL>
+                <label>{{ for_sale }}</label>
+            </div>
         </div>
         {% if for_sale and not flag %}
             <div>
@@ -21,6 +37,24 @@
             </form>
             </div>
             <br>
+        {% endif %}
+        {% if sr %}
+            {% for service in sr %}
+                <h4>Запись {{ forloop.counter }}</h4>
+                <div>
+                    <label>Тип работы: </label>
+                    <label>{{ service.type_work }}</label>
+                </div>
+                <div>
+                    <label>Цена: </label>
+                    <label>{{ service.price }}</label>
+                </div>
+                <div>
+                    <label>Дата проведения: </label>
+                    <label>{{ service.the_date_of_the }}</label>
+                </div>
+                <br>
+            {% endfor %}
         {% endif %}
         {% if flag %}
             <form method="post" action={% url "settings_vehicle" %}>

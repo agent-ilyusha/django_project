@@ -19,12 +19,12 @@
             {% endif %}
                 {% csrf_token %}
                 <div>
-                    <label for="repl">Введите сумму пополнения</label>
+                    <label>Введите сумму пополнения</label>
                     <input type="number" id="repl" name="sum">
                 </div><br>
                 <div>
-                    <label for="accept">Подтвердить пополнение</label>
-                    <input type="submit" name="accept" id="accept" value="Готово">
+                    <label>Подтвердить пополнение</label>
+                    <button type="submit" name="accept" id="accept">Готово</button>
                 </div>
             </form><br>
             <div>

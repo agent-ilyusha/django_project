@@ -5,51 +5,92 @@
         <link rel="stylesheet" href={% static "css/selector.css" %}>
         <script type="text/javascript" src={% static '/js/button.js' %}></script>
         {% if flag %}
+            {% if errors_car %}
+                <div>
+                {% for error in errors_car %}
+                    <label>{{ error }}</label><br>
+                {% endfor %}
+                </div><br>
+            {% endif %}
             <div>
                 <form method="post" action={% url "settings_vehicle" %}>
                     {% csrf_token %}
+                    <input type="text" name="car_id" id="car_id" value="{{ car.id }}" hidden>
                     <div>
-                        <label for="mark">Марка</label>
-                        <input type="text" name="mark" id="mark" value="{{ car.mark }}">
+                        <div>
+                            <label for="mark">Марка</label>
+                            <input type="text" name="mark" id="mark" value="{{ car.mark }}">
+                        </div>
+                        <div>
+                            <label for="model">Модель</label>
+                            <input type="text" name="model" id="model" value="{{ car.model }}">
+                        </div>
+                        <div>
+                            <label for="description">Описание</label>
+                            <input type="text" name="description" id="description" value="{{ car.description }}">
+                        </div>
+                        <div>
+                            <label for="price">Цена</label>
+                            <input type="number" name="price" id="price" value="{{ car.price }}">
+                        </div>
+                        <div>
+                            <label for="date_of_issue">Дата выпуска</label>
+                            <input type="date" name="date_of_issue" id="date_of_issue" value="{{ date_of_issue }}">
+                        </div>
+                        <div>
+                            <labeL for="for_sale">Продажа</labeL>
+                            <input type="checkbox"
+                                   name="for_sale" id="for_sale"
+                                    {% if car.for_sale %} checked {% endif %}>
+                        </div>
+                        <div>
+                            <button type="submit" name="car_data" id="car_data">Обновить данные</button>
+                        </div>
                     </div>
-                    <div>
-                        <label for="model">Модель</label>
-                        <input type="text" name="model" id="model" value="{{ car.model }}">
+                </form>
+                <form method="post" action={% url "settings_vehicle" %}>
+                {% csrf_token %}
+                    <input type="text" name="car_id" id="car_id" value="{{ car.id }}" hidden>
+                {% if errors_sr %}
+                    <div id="errors_sr">
+                        {% for errors in errors_sr %}
+                            <h4>Ошибки записи {{ forloop.counter }}</h4>
+                            {% for error in errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
                     </div>
-                    <div>
-                        <label for="description">Описание</label>
-                        <input type="text" name="description" id="description" value="{{ car.description }}">
-                    </div>
-                    <div>
-                        <label for="price">Цена</label>
-                        <input type="text" name="price" id="price" value="{{ car.price }}">
-                    </div>
-                    <div>
-                        <label for="date_of_issue">Дата выпуска</label>
-                        <input type="date" name="date_of_issue" id="date_of_issue" value="{{ date_of_issue }}">
-                    </div>
-                    <div>
-                        <labeL for="for_sale">Продажа</labeL>
-                        <input type="checkbox"
-                               name="for_sale" id="for_sale"
-                               value="{{ car.for_sale }}"
-                                {% if car.for_sale %} checked {% endif %}>
-                    </div>
-                    <div>
-                        <button type="submit" name="car_id" id="car_id" value="{{ car.id }}">Обновить данные</button>
-                    </div>
+                {% endif %}
+                    <div id="service_main_div">
                     {% if sr %}
                         {% for service in sr %}
-                            <h4>Запись</h4>
-                            {% for name, val in service.items %}
-                                <div>
-                                    <label for="{{ name }}">{{ name }}</label>
-                                    <input type="text" id="{{ name }}" value="{{ val }}">
-                                </div>
-                            {% endfor %}
-                            <br>
+                            {% with index=forloop.counter0 %}
+                            <div id="{{ forloop.counter0 }}" class="main_div_sr">
+                                <h4>Запись {{ forloop.counter }}</h4>
+                                {% for name, val in service.items %}
+                                    <label for="{{ name }}{{ index }}">{{ name }}</label>
+                                    {% if 'the_date_of_the' == name %}
+                                        <input type="date" id="{{ name }}{{ index }}" name="{{ name }}{{ index }}" value="{{ val }}">
+                                    {% elif 'price' == name %}
+                                        <input type="number" id="{{ name }}{{ index }}" name="{{ name }}{{ index }}" value="{{ val }}">
+                                    {% else %}
+                                        <input type="text" id="{{ name }}{{ index }}" name="{{ name }}{{ index }}" value="{{ val }}">
+                                    {% endif %}
+                                    <br>
+                                {% endfor %}
+                                <br>
+                            </div>
+                            {% endwith %}
                         {% endfor %}
                     {% endif %}
+                    </div><br>
+                    <div id="buttons">
+                        <button name="add_sr" type="button" onclick="addRecordField()">Добавить записи</button>
+                        <button name="del_sr" type="button" onclick="delRecordField()">Удалить записи</button>
+                    </div><br>
+                    <div>
+                        <button id="accept" type="submit" name="sr_data">Подтвердить изменения данных записей</button>
+                    </div>
                 </form>
             <form method="post" action={% url "delete_car" %}>
                 {% csrf_token %}

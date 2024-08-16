@@ -19,6 +19,7 @@ function addRecordField() {
 
 function delRecordField() {
     let div = document.getElementById('service_main_div');
+    let x = document.getElementsByClassName("main_div_sr").length;
     if (x > 0){
         const child = div.childNodes[div.childNodes.length-1];
         div.removeChild(child);

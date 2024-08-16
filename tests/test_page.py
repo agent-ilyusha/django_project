@@ -20,9 +20,9 @@ def login(driver):
 def test_registration():
     driver = webdriver.Firefox()
     data = {
-        'username': 'test',
-        'first_name': 'test',
-        'last_name': 'test',
+        'username': 'test4',
+        'first_name': 'test4',
+        'last_name': 'test4',
         'password': 'test_1234'
     }
     driver.get(URL + 'register/')
@@ -44,8 +44,8 @@ def test_registration():
 def test_login():
     driver = webdriver.Firefox()
     data = {
-        'username': 'mandarinka',
-        'password': '0347469_Wasd'
+        'username': 'test4',
+        'password': 'test_1234'
     }
     driver.get(URL + "login/")
     driver.find_element(By.NAME, 'username').send_keys(data['username'])
