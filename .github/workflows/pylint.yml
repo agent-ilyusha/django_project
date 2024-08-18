@@ -27,5 +27,5 @@ jobs:
         chmod +x tests/test.sh
     - name: Test models
       run: ./tests/test.sh tests.test_models
-#    - name: Test api
-#      run: ./tests/test.sh tests.test_api
+    - name: Test api
+      run: ./tests/test.sh tests.test_api
