@@ -1,3 +1,5 @@
 *pycache*
 *.env
-*venv*
+*.venv*
+*.coverage
+*.idea*
